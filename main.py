@@ -1,72 +1,82 @@
 import time
 import json
-import webbrowser
+import threading
 import subprocess
 import sys
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, TimeoutError
 
 def ensure_playwright_browsers():
     try:
         subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=True)
-        print("✅ Playwright browsers installed successfully")
+        print("✅ Playwright Chromium installed")
     except subprocess.CalledProcessError as e:
-        print("❌ Failed to install Playwright browsers:", e)
+        print("❌ Failed to install browsers:", e)
         sys.exit(1)
 
-class URLMonitor:
-    def __init__(self):
-        # Load URLs from settings.json
-        with open("settings.json", "r", encoding="utf-8") as f:
-            self.settings = json.load(f)
-        self.urls = self.settings["urls"]
+class URLMonitorThread(threading.Thread):
+    def __init__(self, url):
+        super().__init__()
+        self.url = url
         self.running = True
-        self.pages = []
 
-    def monitor_urls(self):
-        """Monitor all URLs, one tab per URL, refreshing each tab."""
-        ensure_playwright_browsers()
-        with sync_playwright() as playwright:
-            # Launch browser in visible mode
-            browser = playwright.chromium.launch(headless=False)
-            try:
-                # Open one page per URL and keep it open
-                self.pages = [browser.new_page() for _ in self.urls]
-                for page, url in zip(self.pages, self.urls):
-                    page.goto(url, wait_until="networkidle", timeout=60000)
-                    print(f"✅ Opened {url}")
-                print(f"✅ Monitoring {len(self.urls)} URLs. Press Ctrl+C to stop.")
+    def run(self):
+        try:
+            with sync_playwright() as playwright:
+                browser = playwright.chromium.launch(headless=False)
+                page = browser.new_page()
                 while self.running:
-                    for page, url in zip(self.pages, self.urls):
-                        try:
-                            page.reload(wait_until="networkidle", timeout=60000)
-                            title = page.title()
-                            print(f"[{url}] Status: OK - Title: {title}")
-                        except Exception as e:
-                            print(f"[{url}] Error: {str(e)}")
-                            print(f"❌ Error detected. Opening {url} in system browser...")
-                            webbrowser.open(url)
-                    time.sleep(5)
-            finally:
-                for page in self.pages:
                     try:
-                        page.close()
-                    except:
-                        pass
-                try:
-                    browser.close()
-                except:
-                    pass
-    def stop(self):
-        print("\n⛔ Stopping monitoring...")
-        self.running = False
-        print("✅ Monitoring stopped.")
+                        print(f"🌐 Loading: {self.url}")
+                        page.goto(self.url, wait_until="networkidle", timeout=120000)
+                        print(f"✅ Loaded: {self.url} | Title: {page.title()}")
+                        try:
+                            page.wait_for_selector('a[href="#tabCont1"]', timeout=10000)
+                            page.click('a[href="#tabCont1"]')
+                            print(f"👉 Clicked button on {self.url}")
+                        except TimeoutError:
+                            print(f"⚠️ Button not found on {self.url}")
+                        while self.running:
+                            time.sleep(5)
+                    except TimeoutError:
+                        print(f"⏳ Timeout: {self.url} - Reloading in 5 seconds...")
+                        time.sleep(5)
+                    except Exception as e:
+                        print(f"❌ Error at {self.url}: {e} - Retrying in 5 seconds...")
+                        time.sleep(5)
+        except Exception as e:
+            print(f"❌ Fatal thread error ({self.url}): {e}")
+        finally:
+            try:
+                page.close()
+                browser.close()
+            except:
+                pass
+
+def load_settings():
+    with open("settings.json", "r", encoding="utf-8") as f:
+        settings = json.load(f)
+    return settings["urls"]
 
 def main():
-    monitor = URLMonitor()
+    ensure_playwright_browsers()
+    urls = load_settings()
+
+    threads = []
+    for url in urls:
+        t = URLMonitorThread(url)
+        t.start()
+        threads.append(t)
+
     try:
-        monitor.monitor_urls()
+        while True:
+            time.sleep(1)
     except KeyboardInterrupt:
-        monitor.stop()
+        print("\n⛔ Stopping all monitors...")
+        for t in threads:
+            t.running = False
+        for t in threads:
+            t.join()
+        print("✅ All threads stopped.")
 
 if __name__ == "__main__":
     main()
