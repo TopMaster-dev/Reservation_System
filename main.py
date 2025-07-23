@@ -22,35 +22,29 @@ class URLMonitorThread(threading.Thread):
     def run(self):
         try:
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch(headless=False)
-                page = browser.new_page()
                 while self.running:
+                    browser = playwright.chromium.launch(headless=False)
+                    page = browser.new_page()
                     try:
                         print(f"🌐 Loading: {self.url}")
                         page.goto(self.url, wait_until="networkidle", timeout=120000)
                         print(f"✅ Loaded: {self.url} | Title: {page.title()}")
-                        try:
-                            page.wait_for_selector('a[href="#tabCont1"]', timeout=10000)
-                            page.click('a[href="#tabCont1"]')
-                            print(f"👉 Clicked button on {self.url}")
-                        except TimeoutError:
-                            print(f"⚠️ Button not found on {self.url}")
                         while self.running:
                             time.sleep(5)
                     except TimeoutError:
-                        print(f"⏳ Timeout: {self.url} - Reloading in 5 seconds...")
-                        time.sleep(5)
+                        print(f"⏳ Timeout on {self.url}, reloading...")
+                        page.close()
+                        browser.close()
+                        time.sleep(5)  # Wait before retrying
+                        continue
                     except Exception as e:
-                        print(f"❌ Error at {self.url}: {e} - Retrying in 5 seconds...")
+                        print(f"❌ Error at {self.url}: {e}, retrying...")
+                        page.close()
+                        browser.close()
                         time.sleep(5)
+                        continue
         except Exception as e:
-            print(f"❌ Fatal thread error ({self.url}): {e}")
-        finally:
-            try:
-                page.close()
-                browser.close()
-            except:
-                pass
+            print(f"❌ Thread crashed ({self.url}): {e}")
 
 def load_settings():
     with open("settings.json", "r", encoding="utf-8") as f:
@@ -71,7 +65,7 @@ def main():
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print("\n⛔ Stopping all monitors...")
+        print("\n⛔ Exiting...")
         for t in threads:
             t.running = False
         for t in threads:
