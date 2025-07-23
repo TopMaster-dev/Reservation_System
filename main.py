@@ -1,81 +1,82 @@
-import threading
 import time
 import json
-import webbrowser
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.common.exceptions import WebDriverException
+import threading
+import subprocess
+import sys
+from playwright.sync_api import sync_playwright, TimeoutError
 
-# Load URLs from settings.json
-with open("settings.json", "r", encoding="utf-8") as f:
-    settings = json.load(f)
-
-urls = settings["urls"]
-stop_event = threading.Event()
-
-def create_driver():
-    # Configure Chrome options for headless operation
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    
-    # Create and return a new Chrome driver instance
-    return webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()),
-        options=chrome_options
-    )
-
-# Function to monitor each URL
-def monitor_url(url):
-    driver = create_driver()
-    
+def ensure_playwright_browsers():
     try:
-        while not stop_event.is_set():
-            try:
-                # Load the page
-                driver.get(url)
-                
-                # Get page title as verification that page loaded properly
-                title = driver.title
-                print(f"[{url}] Status: OK - Title: {title}")
-                
-            except WebDriverException as e:
-                print(f"[{url}] Error: {str(e)}")
-                print(f"❌ Error detected. Opening {url} in browser...")
-                webbrowser.open(url)
-            
-            time.sleep(5)
-    
-    finally:
-        # Clean up the driver
+        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=True)
+        print("✅ Playwright Chromium installed")
+    except subprocess.CalledProcessError as e:
+        print("❌ Failed to install browsers:", e)
+        sys.exit(1)
+
+class URLMonitorThread(threading.Thread):
+    def __init__(self, url):
+        super().__init__()
+        self.url = url
+        self.running = True
+
+    def run(self):
         try:
-            driver.quit()
-        except:
-            pass
+            with sync_playwright() as playwright:
+                browser = playwright.chromium.launch(headless=False)
+                page = browser.new_page()
+                while self.running:
+                    try:
+                        print(f"🌐 Loading: {self.url}")
+                        page.goto(self.url, wait_until="networkidle", timeout=120000)
+                        print(f"✅ Loaded: {self.url} | Title: {page.title()}")
+                        try:
+                            page.wait_for_selector('a[href="#tabCont1"]', timeout=10000)
+                            page.click('a[href="#tabCont1"]')
+                            print(f"👉 Clicked button on {self.url}")
+                        except TimeoutError:
+                            print(f"⚠️ Button not found on {self.url}")
+                        while self.running:
+                            time.sleep(5)
+                    except TimeoutError:
+                        print(f"⏳ Timeout: {self.url} - Reloading in 5 seconds...")
+                        time.sleep(5)
+                    except Exception as e:
+                        print(f"❌ Error at {self.url}: {e} - Retrying in 5 seconds...")
+                        time.sleep(5)
+        except Exception as e:
+            print(f"❌ Fatal thread error ({self.url}): {e}")
+        finally:
+            try:
+                page.close()
+                browser.close()
+            except:
+                pass
 
-# Start threads
-threads = []
-for url in urls:
-    t = threading.Thread(target=monitor_url, args=(url,))
-    t.start()
-    threads.append(t)
+def load_settings():
+    with open("settings.json", "r", encoding="utf-8") as f:
+        settings = json.load(f)
+    return settings["urls"]
 
-print("✅ Monitoring started. Press Ctrl+C to stop.")
+def main():
+    ensure_playwright_browsers()
+    urls = load_settings()
 
-# Monitor until interrupted
-try:
-    while True:
-        time.sleep(1)
-except KeyboardInterrupt:
-    print("\n⛔ Interrupted by user.")
-    stop_event.set()  # Signal threads to stop
+    threads = []
+    for url in urls:
+        t = URLMonitorThread(url)
+        t.start()
+        threads.append(t)
 
-# Wait for all threads to complete
-for t in threads:
-    t.join()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("\n⛔ Stopping all monitors...")
+        for t in threads:
+            t.running = False
+        for t in threads:
+            t.join()
+        print("✅ All threads stopped.")
 
-print("✅ Monitoring stopped.")
+if __name__ == "__main__":
+    main()

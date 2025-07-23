@@ -1,0 +1,147 @@
+[
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "webbrowser",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "webbrowser",
+        "description": "webbrowser",
+        "detail": "webbrowser",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "sync_playwright",
+        "importPath": "playwright.sync_api",
+        "description": "playwright.sync_api",
+        "isExtraImport": true,
+        "detail": "playwright.sync_api",
+        "documentation": {}
+    },
+    {
+        "label": "webdriver",
+        "importPath": "selenium",
+        "description": "selenium",
+        "isExtraImport": true,
+        "detail": "selenium",
+        "documentation": {}
+    },
+    {
+        "label": "By",
+        "importPath": "selenium.webdriver.common.by",
+        "description": "selenium.webdriver.common.by",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.common.by",
+        "documentation": {}
+    },
+    {
+        "label": "Keys",
+        "importPath": "selenium.webdriver.common.keys",
+        "description": "selenium.webdriver.common.keys",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.common.keys",
+        "documentation": {}
+    },
+    {
+        "label": "WebDriverWait",
+        "importPath": "selenium.webdriver.support.ui",
+        "description": "selenium.webdriver.support.ui",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.support.ui",
+        "documentation": {}
+    },
+    {
+        "label": "expected_conditions",
+        "importPath": "selenium.webdriver.support",
+        "description": "selenium.webdriver.support",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.support",
+        "documentation": {}
+    },
+    {
+        "label": "Service",
+        "importPath": "selenium.webdriver.chrome.service",
+        "description": "selenium.webdriver.chrome.service",
+        "isExtraImport": true,
+        "detail": "selenium.webdriver.chrome.service",
+        "documentation": {}
+    },
+    {
+        "label": "ChromeDriverManager",
+        "importPath": "webdriver_manager.chrome",
+        "description": "webdriver_manager.chrome",
+        "isExtraImport": true,
+        "detail": "webdriver_manager.chrome",
+        "documentation": {}
+    },
+    {
+        "label": "URLMonitor",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class URLMonitor:\n    def __init__(self):\n        # Load URLs from settings.json\n        with open(\"settings.json\", \"r\", encoding=\"utf-8\") as f:\n            self.settings = json.load(f)\n        self.urls = self.settings[\"urls\"]\n        self.running = True\n        self.contexts = []\n    def check_url(self, url, context):\n        \"\"\"Check a single URL using the given context\"\"\"",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "ensure_playwright_browsers",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def ensure_playwright_browsers():\n    try:\n        subprocess.run([sys.executable, \"-m\", \"playwright\", \"install\", \"chromium\"], check=True)\n        print(\"✅ Playwright browsers installed successfully\")\n    except subprocess.CalledProcessError as e:\n        print(\"❌ Failed to install Playwright browsers:\", e)\n        sys.exit(1)\nclass URLMonitor:\n    def __init__(self):\n        # Load URLs from settings.json",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def main():\n    monitor = URLMonitor()\n    try:\n        monitor.monitor_urls()\n    except KeyboardInterrupt:\n        monitor.stop()\nif __name__ == \"__main__\":\n    main()",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "selenium_example",
+        "description": "selenium_example",
+        "peekOfCode": "def main():\n    # Setup Chrome WebDriver with automatic ChromeDriver installation\n    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))\n    try:\n        # Navigate to a website\n        driver.get(\"https://www.google.com\")\n        # Find search box element\n        search_box = driver.find_element(By.NAME, \"q\")\n        # Type in search\n        search_box.send_keys(\"Selenium with Python\")",
+        "detail": "selenium_example",
+        "documentation": {}
+    }
+]
