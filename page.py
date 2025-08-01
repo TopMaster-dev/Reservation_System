@@ -1,8 +1,22 @@
 import asyncio
 from playwright.async_api import async_playwright
 from datetime import datetime, timedelta
+import json
+import os
 
-async def run():
+def load_settings(json_path="settings.json"):
+    if not os.path.exists(json_path):
+        print(f"Settings file '{json_path}' not found.")
+        return {}
+    with open(json_path, "r", encoding="utf-8") as f:
+        try:
+            settings = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return {}
+    return settings
+
+async def run(settings):
     tomorrow = datetime.now() + timedelta(days=1)
     setDay = tomorrow.strftime("%Y%m%d")
     print(setDay)
@@ -27,22 +41,22 @@ async def run():
         await asyncio.sleep(60)  # Keep browser open for 1 hour
 
         # Click to open the reservation tab
-        await page.wait_for_selector('a[href="#tabCont1"]', timeout=10000)
-        await page.click('a[href="#tabCont1"]')
+        await page.wait_for_selector(settings["tag_name"][0], timeout=10000) #
+        await page.click(settings["tag_name"][0])
 
         while True:
             try:
                 # Click reserve button
-                await page.wait_for_selector('li.js-reserveButton', timeout=10000)
-                await page.click('li.js-reserveButton')
+                await page.wait_for_selector(settings["tag_name"][1], timeout=10000)
+                await page.click(settings["tag_name"][1])
 
                 if 'condition_hide_clicked' not in locals():
-                    await page.wait_for_selector('li a.js-conditionHide', timeout=10000)
-                    await page.click('li a.js-conditionHide')
+                    await page.wait_for_selector(settings["tag_name"][2], timeout=10000)
+                    await page.click(settings["tag_name"][2])
                     condition_hide_clicked = True
                 await asyncio.sleep(5)
                 td_elements = []
-                for td in await page.query_selector_all("table.vacancyCalTable td"):
+                for td in await page.query_selector_all(settings["tag_name"][3]):
                     td_class = await td.get_attribute("class")
                     if td_class and "ok" in td_class.split():
                         td_elements.append(td)
@@ -51,21 +65,22 @@ async def run():
                     a_tag = await td.query_selector('a')
                     if a_tag:
                         await a_tag.click()
-                        await page.wait_for_selector("li button.btnReserve", timeout=10000)
-                        await page.click("li button.btnReserve")
+                        await page.wait_for_selector(settings["tag_name"][4], timeout=10000)
+                        await page.click(settings["tag_name"][4])
                         print("Reservation found and clicked!")
                         found = True
                         try:
-                            await page.wait_for_selector("#js-vacancyModal p.closeModal", timeout=10000)
-                            await page.click("#js-vacancyModal p.closeModal")
+                            await page.wait_for_selector(settings["tag_name"][5], timeout=10000)
+                            await page.click(settings["tag_name"][5])
+                            found = False
                         except Exception as e:
                             print(f"Could not close vacancy modal: {e}")
                         break
                 if found:
                     break  # Exit the loop if reservation is successful
                 try:
-                    await page.wait_for_selector("#js-vacancyModal p.closeModal", timeout=10000)
-                    await page.click("#js-vacancyModal p.closeModal")
+                    await page.wait_for_selector(settings["tag_name"][5], timeout=10000)
+                    await page.click(settings["tag_name"][5])
                 except Exception as e:
                     print(f"Could not close vacancy modal: {e}")
             except Exception as e:
@@ -76,7 +91,8 @@ async def run():
         await asyncio.sleep(30)  # Keep browser open for 1 hour
 
 def main(): 
-    asyncio.run(run())
+    settings = load_settings("settings.json")
+    asyncio.run(run(settings))
 
 if __name__ == "__main__":
     main()

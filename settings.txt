@@ -1,0 +1,6 @@
+// "a[href='#tabCont1']", //すべて
+// "li.js-reserveButton", //空き検索
+// "li a.js-conditionHide", //modal 次へ
+// "table.vacancyCalTable td",  //calendar table td
+// "li button.btnReserve", //  予約手続きに進む
+// "#js-vacancyModal p.closeModal",  //modal close

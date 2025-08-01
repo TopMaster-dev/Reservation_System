@@ -129,6 +129,24 @@
         "documentation": {}
     },
     {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
         "label": "calendar",
         "kind": 6,
         "isExtraImport": true,
@@ -147,11 +165,20 @@
         "documentation": {}
     },
     {
+        "label": "load_settings",
+        "kind": 2,
+        "importPath": "page",
+        "description": "page",
+        "peekOfCode": "def load_settings(json_path=\"settings.json\"):\n    if not os.path.exists(json_path):\n        print(f\"Settings file '{json_path}' not found.\")\n        return {}\n    with open(json_path, \"r\", encoding=\"utf-8\") as f:\n        try:\n            settings = json.load(f)\n        except json.JSONDecodeError as e:\n            print(f\"Error decoding JSON: {e}\")\n            return {}",
+        "detail": "page",
+        "documentation": {}
+    },
+    {
         "label": "main",
         "kind": 2,
         "importPath": "page",
         "description": "page",
-        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    settings = load_settings(\"settings.json\")\n    asyncio.run(run(settings))\nif __name__ == \"__main__\":\n    main()",
         "detail": "page",
         "documentation": {}
     },
