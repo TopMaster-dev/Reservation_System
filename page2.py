@@ -5,13 +5,7 @@ from run import set_tag
 from line import line_bot
 
 async def run():
-    # Calculate the target month
-    target_date = datetime.now().replace(day=1) + timedelta(days=64)
-    # Get last day of the target month
-    last_day = calendar.monthrange(target_date.year, target_date.month)[1]
-    # Use the current day or last day of target month, whichever is smaller
-    target_day = min(datetime.now().day, last_day)
-    next_month = target_date.replace(day=target_day)
+    next_month = (datetime.now().replace(day=1) + timedelta(days=64)).replace(day=datetime.now().day)
     setDay = next_month.strftime("%Y%m%d")
     print(setDay)
     url = f"https://reserve.tokyodisneyresort.jp/hotel/list/?showWay=&roomsNum=1&adultNum=2&childNum=0&stayingDays=1&useDate={setDay}&cpListStr=&childAgeBedInform=&searchHotelCD=DHM&searchHotelDiv=&hotelName=&searchHotelName=&searchLayer=&searchRoomName=%E3%82%B9%E3%83%9A%E3%83%81%E3%82%A2%E3%83%BC%E3%83%AC%E3%83%BB%E3%83%AB%E3%83%BC%E3%83%A0%EF%BC%86%E3%82%B9%E3%82%A4%E3%83%BC%E3%83%88%E3%80%80%E3%83%9D%E3%83%AB%E3%83%88%E3%83%BB%E3%83%91%E3%83%A9%E3%83%87%E3%82%A3%E3%83%BC%E3%82%BE%E3%83%BB%E3%82%B5%E3%82%A4%E3%83%89%20%E3%83%86%E3%83%A9%E3%82%B9%E3%83%AB%E3%83%BC%E3%83%A0%20%E3%83%8F%E3%83%BC%E3%83%90%E3%83%BC%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%93%E3%83%A5%E3%83%BC&hotelSearchDetail=true&detailOpenFlg=0&checkPointStr=&hotelChangeFlg=false&removeSessionFlg=true&returnFlg=false&hotelShowFlg=&displayType=data-hotel&reservationStatus=1&hotelRoomCd=HODHMTGD0004N#tabCont1"
@@ -93,7 +87,7 @@ async def run():
         await asyncio.sleep(30)  # Keep browser open for 1 hour
 
 def main(): 
-    asyncio.run(run(set_tag))
+    asyncio.run(run())
 
 if __name__ == "__main__":
     main()

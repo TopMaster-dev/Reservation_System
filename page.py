@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from run import set_tag
 from line import line_bot
 
-async def run(set_tag):
+async def run():
     tomorrow = datetime.now() + timedelta(days=1)
     setDay = tomorrow.strftime("%Y%m%d")
     print(setDay)
@@ -87,7 +87,7 @@ async def run(set_tag):
         await asyncio.sleep(30)  # Keep browser open for 1 hour
 
 def main(): 
-    asyncio.run(run(set_tag))
+    asyncio.run(run())
 
 if __name__ == "__main__":
     main()

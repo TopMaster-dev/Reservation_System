@@ -332,7 +332,7 @@
         "kind": 2,
         "importPath": "page",
         "description": "page",
-        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
         "detail": "page",
         "documentation": {}
     },
@@ -341,7 +341,7 @@
         "kind": 2,
         "importPath": "page1",
         "description": "page1",
-        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
         "detail": "page1",
         "documentation": {}
     },
@@ -350,7 +350,7 @@
         "kind": 2,
         "importPath": "page2",
         "description": "page2",
-        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
         "detail": "page2",
         "documentation": {}
     },
@@ -359,7 +359,7 @@
         "kind": 2,
         "importPath": "page3",
         "description": "page3",
-        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
         "detail": "page3",
         "documentation": {}
     },
@@ -368,7 +368,7 @@
         "kind": 2,
         "importPath": "page4",
         "description": "page4",
-        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
         "detail": "page4",
         "documentation": {}
     },
@@ -377,7 +377,7 @@
         "kind": 2,
         "importPath": "run",
         "description": "run",
-        "peekOfCode": "def main():\n    scripts = [\n        \"python page.py\",\n        # \"python page1.py\",\n        # \"python page2.py\",\n        # \"python page3.py\",\n        # \"python page4.py\"\n    ]\n    processes = []\n    if(set_tag):",
+        "peekOfCode": "def main():\n    scripts = [\n        \"python page.py\",\n        \"python page1.py\",\n        \"python page2.py\",\n        \"python page3.py\",\n        \"python page4.py\"\n    ]\n    processes = []\n    if(set_tag):",
         "detail": "run",
         "documentation": {}
     },
@@ -386,7 +386,7 @@
         "kind": 5,
         "importPath": "run",
         "description": "run",
-        "peekOfCode": "set_tag = load_settings('settings.json')\ndef main():\n    scripts = [\n        \"python page.py\",\n        # \"python page1.py\",\n        # \"python page2.py\",\n        # \"python page3.py\",\n        # \"python page4.py\"\n    ]\n    processes = []",
+        "peekOfCode": "set_tag = load_settings('settings.json')\ndef main():\n    scripts = [\n        \"python page.py\",\n        \"python page1.py\",\n        \"python page2.py\",\n        \"python page3.py\",\n        \"python page4.py\"\n    ]\n    processes = []",
         "detail": "run",
         "documentation": {}
     },

@@ -7,10 +7,10 @@ set_tag = load_settings('settings.json')
 def main():
     scripts = [
         "python page.py",
-        # "python page1.py",
-        # "python page2.py",
-        # "python page3.py",
-        # "python page4.py"
+        "python page1.py",
+        "python page2.py",
+        "python page3.py",
+        "python page4.py"
     ]
 
     processes = []

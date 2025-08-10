@@ -87,7 +87,7 @@ async def run():
         await asyncio.sleep(30)  # Keep browser open for 1 hour
 
 def main(): 
-    asyncio.run(run(set_tag))
+    asyncio.run(run())
 
 if __name__ == "__main__":
     main()
