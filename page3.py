@@ -1,6 +1,8 @@
 import asyncio
 from playwright.async_api import async_playwright
 from datetime import datetime, timedelta
+from run import set_tag
+from line import line_bot
 
 async def run():
     next_month = (datetime.now().replace(day=1) + timedelta(days=96)).replace(day=datetime.now().day)
@@ -24,25 +26,30 @@ async def run():
 
         print("Navigating...")
         await page.goto(url, wait_until="load", timeout=300000)
-        await asyncio.sleep(60)  # Keep browser open for 1 hour
 
         # Click to open the reservation tab
-        await page.wait_for_selector('a[href="#tabCont1"]', timeout=10000)
-        await page.click('a[href="#tabCont1"]')
+        await page.wait_for_selector(set_tag["tag_name"][0], timeout=None) #
+        await page.click(set_tag["tag_name"][0])
 
         while True:
             try:
                 # Click reserve button
-                await page.wait_for_selector('li.js-reserveButton', timeout=10000)
-                await page.click('li.js-reserveButton')
+                await page.wait_for_selector(set_tag["tag_name"][1], timeout=None)
+                await page.click(set_tag["tag_name"][1])
 
                 if 'condition_hide_clicked' not in locals():
-                    await page.wait_for_selector('li a.js-conditionHide', timeout=10000)
-                    await page.click('li a.js-conditionHide')
+                    await page.wait_for_selector(set_tag["tag_name"][2], timeout=None)
+                    await page.click(set_tag["tag_name"][2])
                     condition_hide_clicked = True
-                await asyncio.sleep(5)
+                # Wait until the <a> tag contains an <img>, then execute the line
+                try:
+                    selector = f'[data-date="{setDay}"] {set_tag["tag_name"][6]}'
+                    await page.wait_for_selector(selector, timeout=None)
+                    print("Found the specific reservation image!")
+                except Exception as e:
+                    print(f"Image inside <a> tag did not appear in time: {e}")
                 td_elements = []
-                for td in await page.query_selector_all("table.vacancyCalTable td"):
+                for td in await page.query_selector_all(set_tag["tag_name"][3]):
                     td_class = await td.get_attribute("class")
                     if td_class and "ok" in td_class.split():
                         td_elements.append(td)
@@ -51,16 +58,25 @@ async def run():
                     a_tag = await td.query_selector('a')
                     if a_tag:
                         await a_tag.click()
-                        await page.wait_for_selector("li button.btnReserve", timeout=10000)
-                        await page.click("li button.btnReserve")
+                        await page.wait_for_selector(set_tag["tag_name"][4], timeout=10000)
+                        await page.click(set_tag["tag_name"][4])
                         print("Reservation found and clicked!")
+                        line_success = line_bot()
+                        if(line_success):
+                            print("success send line msg!")
                         found = True
+                        try:
+                            await page.wait_for_selector(set_tag["tag_name"][5], timeout=10000)
+                            await page.click(set_tag["tag_name"][5])
+                            found = False
+                        except Exception as e:
+                            print(f"Could not close vacancy modal: {e}")
                         break
                 if found:
                     break  # Exit the loop if reservation is successful
                 try:
-                    await page.wait_for_selector("#js-vacancyModal p.closeModal", timeout=10000)
-                    await page.click("#js-vacancyModal p.closeModal")
+                    await page.wait_for_selector(set_tag["tag_name"][5], timeout=10000)
+                    await page.click(set_tag["tag_name"][5])
                 except Exception as e:
                     print(f"Could not close vacancy modal: {e}")
             except Exception as e:
@@ -71,7 +87,7 @@ async def run():
         await asyncio.sleep(30)  # Keep browser open for 1 hour
 
 def main(): 
-    asyncio.run(run())
+    asyncio.run(run(set_tag))
 
 if __name__ == "__main__":
     main()

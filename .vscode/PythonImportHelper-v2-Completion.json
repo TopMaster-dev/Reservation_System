@@ -1,5 +1,53 @@
 [
     {
+        "label": "MessagingApi",
+        "importPath": "linebot.v3.messaging",
+        "description": "linebot.v3.messaging",
+        "isExtraImport": true,
+        "detail": "linebot.v3.messaging",
+        "documentation": {}
+    },
+    {
+        "label": "PushMessageRequest",
+        "importPath": "linebot.v3.messaging",
+        "description": "linebot.v3.messaging",
+        "isExtraImport": true,
+        "detail": "linebot.v3.messaging",
+        "documentation": {}
+    },
+    {
+        "label": "TextMessage",
+        "importPath": "linebot.v3.messaging",
+        "description": "linebot.v3.messaging",
+        "isExtraImport": true,
+        "detail": "linebot.v3.messaging",
+        "documentation": {}
+    },
+    {
+        "label": "Configuration",
+        "importPath": "linebot.v3.messaging",
+        "description": "linebot.v3.messaging",
+        "isExtraImport": true,
+        "detail": "linebot.v3.messaging",
+        "documentation": {}
+    },
+    {
+        "label": "ApiClient",
+        "importPath": "linebot.v3.messaging",
+        "description": "linebot.v3.messaging",
+        "isExtraImport": true,
+        "detail": "linebot.v3.messaging",
+        "documentation": {}
+    },
+    {
+        "label": "LineBotApiError",
+        "importPath": "linebot.exceptions",
+        "description": "linebot.exceptions",
+        "isExtraImport": true,
+        "detail": "linebot.exceptions",
+        "documentation": {}
+    },
+    {
         "label": "asyncio",
         "kind": 6,
         "isExtraImport": true,
@@ -129,30 +177,83 @@
         "documentation": {}
     },
     {
-        "label": "json",
-        "kind": 6,
+        "label": "set_tag",
+        "importPath": "run",
+        "description": "run",
         "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
+        "detail": "run",
         "documentation": {}
     },
     {
-        "label": "os",
-        "kind": 6,
+        "label": "set_tag",
+        "importPath": "run",
+        "description": "run",
         "isExtraImport": true,
-        "importPath": "os",
-        "description": "os",
-        "detail": "os",
+        "detail": "run",
         "documentation": {}
     },
     {
-        "label": "calendar",
-        "kind": 6,
+        "label": "set_tag",
+        "importPath": "run",
+        "description": "run",
         "isExtraImport": true,
-        "importPath": "calendar",
-        "description": "calendar",
-        "detail": "calendar",
+        "detail": "run",
+        "documentation": {}
+    },
+    {
+        "label": "set_tag",
+        "importPath": "run",
+        "description": "run",
+        "isExtraImport": true,
+        "detail": "run",
+        "documentation": {}
+    },
+    {
+        "label": "set_tag",
+        "importPath": "run",
+        "description": "run",
+        "isExtraImport": true,
+        "detail": "run",
+        "documentation": {}
+    },
+    {
+        "label": "line_bot",
+        "importPath": "line",
+        "description": "line",
+        "isExtraImport": true,
+        "detail": "line",
+        "documentation": {}
+    },
+    {
+        "label": "line_bot",
+        "importPath": "line",
+        "description": "line",
+        "isExtraImport": true,
+        "detail": "line",
+        "documentation": {}
+    },
+    {
+        "label": "line_bot",
+        "importPath": "line",
+        "description": "line",
+        "isExtraImport": true,
+        "detail": "line",
+        "documentation": {}
+    },
+    {
+        "label": "line_bot",
+        "importPath": "line",
+        "description": "line",
+        "isExtraImport": true,
+        "detail": "line",
+        "documentation": {}
+    },
+    {
+        "label": "line_bot",
+        "importPath": "line",
+        "description": "line",
+        "isExtraImport": true,
+        "detail": "line",
         "documentation": {}
     },
     {
@@ -166,11 +267,64 @@
     },
     {
         "label": "load_settings",
+        "importPath": "settings",
+        "description": "settings",
+        "isExtraImport": true,
+        "detail": "settings",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "line_bot",
         "kind": 2,
-        "importPath": "page",
-        "description": "page",
-        "peekOfCode": "def load_settings(json_path=\"settings.json\"):\n    if not os.path.exists(json_path):\n        print(f\"Settings file '{json_path}' not found.\")\n        return {}\n    with open(json_path, \"r\", encoding=\"utf-8\") as f:\n        try:\n            settings = json.load(f)\n        except json.JSONDecodeError as e:\n            print(f\"Error decoding JSON: {e}\")\n            return {}",
-        "detail": "page",
+        "importPath": "line",
+        "description": "line",
+        "peekOfCode": "def line_bot():\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,\n                    messages=[TextMessage(text=\"予約いたしました。ご確認いただけますと幸いです。\")]\n                )\n            )",
+        "detail": "line",
+        "documentation": {}
+    },
+    {
+        "label": "CHANNEL_ACCESS_TOKEN",
+        "kind": 5,
+        "importPath": "line",
+        "description": "line",
+        "peekOfCode": "CHANNEL_ACCESS_TOKEN = '6Tqs0gH5irqefUnJEPimcJbpJSvLwA/sKkdvo3UDocCxkQ8LDqyJy99CnBfcoRQA3j2pKVthvjtkD0vytUcLNYmqk1XYXEEKifTHopJu89YBrWTpBUwnhS2L6yex1h7ToJnIiQS5qC24H3jH5wdEXwdB04t89/1O/w1cDnyilFU='\nUSER_ID = \"U2b729a9c0f5b435b6e81807a21ba908f\"\nconfiguration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)\ndef line_bot():\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,",
+        "detail": "line",
+        "documentation": {}
+    },
+    {
+        "label": "USER_ID",
+        "kind": 5,
+        "importPath": "line",
+        "description": "line",
+        "peekOfCode": "USER_ID = \"U2b729a9c0f5b435b6e81807a21ba908f\"\nconfiguration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)\ndef line_bot():\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,\n                    messages=[TextMessage(text=\"予約いたしました。ご確認いただけますと幸いです。\")]",
+        "detail": "line",
+        "documentation": {}
+    },
+    {
+        "label": "configuration",
+        "kind": 5,
+        "importPath": "line",
+        "description": "line",
+        "peekOfCode": "configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)\ndef line_bot():\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,\n                    messages=[TextMessage(text=\"予約いたしました。ご確認いただけますと幸いです。\")]\n                )",
+        "detail": "line",
         "documentation": {}
     },
     {
@@ -178,7 +332,7 @@
         "kind": 2,
         "importPath": "page",
         "description": "page",
-        "peekOfCode": "def main(): \n    settings = load_settings(\"settings.json\")\n    asyncio.run(run(settings))\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
         "detail": "page",
         "documentation": {}
     },
@@ -187,7 +341,7 @@
         "kind": 2,
         "importPath": "page1",
         "description": "page1",
-        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
         "detail": "page1",
         "documentation": {}
     },
@@ -196,7 +350,7 @@
         "kind": 2,
         "importPath": "page2",
         "description": "page2",
-        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
         "detail": "page2",
         "documentation": {}
     },
@@ -205,7 +359,7 @@
         "kind": 2,
         "importPath": "page3",
         "description": "page3",
-        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
         "detail": "page3",
         "documentation": {}
     },
@@ -214,26 +368,35 @@
         "kind": 2,
         "importPath": "page4",
         "description": "page4",
-        "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def main(): \n    asyncio.run(run(set_tag))\nif __name__ == \"__main__\":\n    main()",
         "detail": "page4",
         "documentation": {}
     },
     {
-        "label": "scripts",
-        "kind": 5,
+        "label": "main",
+        "kind": 2,
         "importPath": "run",
         "description": "run",
-        "peekOfCode": "scripts = [\n    \"python page.py\",\n    \"python page1.py\",\n    \"python page2.py\",\n    \"python page3.py\",\n    \"python page4.py\"\n]\nprocesses = []\n# Start all scripts\nfor cmd in scripts:",
+        "peekOfCode": "def main():\n    scripts = [\n        \"python page.py\",\n        # \"python page1.py\",\n        # \"python page2.py\",\n        # \"python page3.py\",\n        # \"python page4.py\"\n    ]\n    processes = []\n    if(set_tag):",
         "detail": "run",
         "documentation": {}
     },
     {
-        "label": "processes",
+        "label": "set_tag",
         "kind": 5,
         "importPath": "run",
         "description": "run",
-        "peekOfCode": "processes = []\n# Start all scripts\nfor cmd in scripts:\n    p = subprocess.Popen(cmd, shell=True)\n    processes.append(p)\n# Wait for all scripts to finish\nfor p in processes:\n    p.wait()\nprint(\"✅ All scripts finished.\")",
+        "peekOfCode": "set_tag = load_settings('settings.json')\ndef main():\n    scripts = [\n        \"python page.py\",\n        # \"python page1.py\",\n        # \"python page2.py\",\n        # \"python page3.py\",\n        # \"python page4.py\"\n    ]\n    processes = []",
         "detail": "run",
+        "documentation": {}
+    },
+    {
+        "label": "load_settings",
+        "kind": 2,
+        "importPath": "settings",
+        "description": "settings",
+        "peekOfCode": "def load_settings(json_path=\"settings.json\"):\n    global settings_group\n    if not os.path.exists(json_path):\n        print(f\"Settings file '{json_path}' not found.\")\n        return {}\n    with open(json_path, \"r\", encoding=\"utf-8\") as f:\n        try:\n            settings_group = json.load(f)\n        except json.JSONDecodeError as e:\n            print(f\"Error decoding JSON: {e}\")",
+        "detail": "settings",
         "documentation": {}
     }
 ]
