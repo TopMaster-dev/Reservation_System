@@ -48,6 +48,15 @@
         "documentation": {}
     },
     {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
         "label": "asyncio",
         "kind": 6,
         "isExtraImport": true,
@@ -296,7 +305,7 @@
         "kind": 2,
         "importPath": "line",
         "description": "line",
-        "peekOfCode": "def line_bot():\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,\n                    messages=[TextMessage(text=\"予約いたしました。ご確認いただけますと幸いです。\")]\n                )\n            )",
+        "peekOfCode": "def line_bot(bed_type, date_value):\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,\n                    messages=[TextMessage(text=f\"予約いたしました。[予約取得した日付]: {date_value} [部屋名]: {bed_type}\")]\n                )\n            )",
         "detail": "line",
         "documentation": {}
     },
@@ -305,7 +314,7 @@
         "kind": 5,
         "importPath": "line",
         "description": "line",
-        "peekOfCode": "CHANNEL_ACCESS_TOKEN = '6Tqs0gH5irqefUnJEPimcJbpJSvLwA/sKkdvo3UDocCxkQ8LDqyJy99CnBfcoRQA3j2pKVthvjtkD0vytUcLNYmqk1XYXEEKifTHopJu89YBrWTpBUwnhS2L6yex1h7ToJnIiQS5qC24H3jH5wdEXwdB04t89/1O/w1cDnyilFU='\nUSER_ID = \"U2b729a9c0f5b435b6e81807a21ba908f\"\nconfiguration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)\ndef line_bot():\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,",
+        "peekOfCode": "CHANNEL_ACCESS_TOKEN = '6Tqs0gH5irqefUnJEPimcJbpJSvLwA/sKkdvo3UDocCxkQ8LDqyJy99CnBfcoRQA3j2pKVthvjtkD0vytUcLNYmqk1XYXEEKifTHopJu89YBrWTpBUwnhS2L6yex1h7ToJnIiQS5qC24H3jH5wdEXwdB04t89/1O/w1cDnyilFU='\nUSER_ID = \"U2b729a9c0f5b435b6e81807a21ba908f\"\nconfiguration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)\ndef line_bot(bed_type, date_value):\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,",
         "detail": "line",
         "documentation": {}
     },
@@ -314,7 +323,7 @@
         "kind": 5,
         "importPath": "line",
         "description": "line",
-        "peekOfCode": "USER_ID = \"U2b729a9c0f5b435b6e81807a21ba908f\"\nconfiguration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)\ndef line_bot():\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,\n                    messages=[TextMessage(text=\"予約いたしました。ご確認いただけますと幸いです。\")]",
+        "peekOfCode": "USER_ID = \"U2b729a9c0f5b435b6e81807a21ba908f\"\nconfiguration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)\ndef line_bot(bed_type, date_value):\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,\n                    messages=[TextMessage(text=f\"予約いたしました。[予約取得した日付]: {date_value} [部屋名]: {bed_type}\")]",
         "detail": "line",
         "documentation": {}
     },
@@ -323,7 +332,7 @@
         "kind": 5,
         "importPath": "line",
         "description": "line",
-        "peekOfCode": "configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)\ndef line_bot():\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,\n                    messages=[TextMessage(text=\"予約いたしました。ご確認いただけますと幸いです。\")]\n                )",
+        "peekOfCode": "configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)\ndef line_bot(bed_type, date_value):\n    try:\n        with ApiClient(configuration) as api_client:\n            messaging_api = MessagingApi(api_client)\n            messaging_api.push_message(\n                PushMessageRequest(\n                    to=USER_ID,\n                    messages=[TextMessage(text=f\"予約いたしました。[予約取得した日付]: {date_value} [部屋名]: {bed_type}\")]\n                )",
         "detail": "line",
         "documentation": {}
     },

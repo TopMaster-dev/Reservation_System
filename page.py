@@ -1,3 +1,4 @@
+import re
 import asyncio
 from playwright.async_api import async_playwright
 from datetime import datetime, timedelta
@@ -26,7 +27,8 @@ async def run():
 
         print("Navigating...")
         await page.goto(url, wait_until="load", timeout=300000)
-
+        print("loaded")
+        await asyncio.sleep(120)
         # Click to open the reservation tab
         await page.wait_for_selector(set_tag["tag_name"][0], timeout=None) #
         await page.click(set_tag["tag_name"][0])
@@ -58,15 +60,24 @@ async def run():
                     a_tag = await td.query_selector('a')
                     if a_tag:
                         await a_tag.click()
+                        bed_type = await page.text_content(set_tag["tag_name"][7])
+                        # Get the 'onclick' attribute from the button
+                        onclick_value = await page.get_attribute(set_tag["tag_name"][8], "onclick")
+                        # Extract the date from the onclick string
+                        match = re.search(r"vacancyReserve\('.*?','(\d{8})'", onclick_value)
+                        if match:
+                            date_value = match.group(1)
+                        else:
+                            date_value = None
                         await page.wait_for_selector(set_tag["tag_name"][4], timeout=10000)
                         await page.click(set_tag["tag_name"][4])
                         print("Reservation found and clicked!")
-                        line_success = line_bot()
+                        line_success = line_bot(bed_type, date_value)
                         if(line_success):
                             print("success send line msg!")
                         found = True
                         try:
-                            await page.wait_for_selector(set_tag["tag_name"][5], timeout=10000)
+                            await page.wait_for_selector(set_tag["tag_name"][5], timeout=None)
                             await page.click(set_tag["tag_name"][5])
                             found = False
                         except Exception as e:
@@ -75,7 +86,7 @@ async def run():
                 if found:
                     break  # Exit the loop if reservation is successful
                 try:
-                    await page.wait_for_selector(set_tag["tag_name"][5], timeout=10000)
+                    await page.wait_for_selector(set_tag["tag_name"][5], timeout=None)
                     await page.click(set_tag["tag_name"][5])
                 except Exception as e:
                     print(f"Could not close vacancy modal: {e}")

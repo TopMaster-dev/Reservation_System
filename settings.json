@@ -10,6 +10,8 @@
     "table.vacancyCalTable td",
     "li button.btnReserve",
     "#js-vacancyModal p.closeModal",
-    "img[src='/cgp/images/jp/pc/ico/ico_state_14.png']"
+    "img[src='/cgp/images/jp/pc/ico/ico_state_14.png']",
+    "dt p.bedTypeName",
+    "button.next.btnReserve"
   ]
 }

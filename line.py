@@ -7,14 +7,14 @@ USER_ID = "U2b729a9c0f5b435b6e81807a21ba908f"
 
 configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)
 
-def line_bot():
+def line_bot(bed_type, date_value):
     try:
         with ApiClient(configuration) as api_client:
             messaging_api = MessagingApi(api_client)
             messaging_api.push_message(
                 PushMessageRequest(
                     to=USER_ID,
-                    messages=[TextMessage(text="予約いたしました。ご確認いただけますと幸いです。")]
+                    messages=[TextMessage(text=f"予約いたしました。[予約取得した日付]: {date_value} [部屋名]: {bed_type}")]
                 )
             )
         return True
