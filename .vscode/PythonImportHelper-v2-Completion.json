@@ -48,6 +48,15 @@
         "documentation": {}
     },
     {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
         "label": "re",
         "kind": 6,
         "isExtraImport": true,
@@ -266,6 +275,46 @@
         "documentation": {}
     },
     {
+        "label": "get_playwright_browsers_path",
+        "importPath": "playwright_path",
+        "description": "playwright_path",
+        "isExtraImport": true,
+        "detail": "playwright_path",
+        "documentation": {}
+    },
+    {
+        "label": "get_playwright_browsers_path",
+        "importPath": "playwright_path",
+        "description": "playwright_path",
+        "isExtraImport": true,
+        "detail": "playwright_path",
+        "documentation": {}
+    },
+    {
+        "label": "get_playwright_browsers_path",
+        "importPath": "playwright_path",
+        "description": "playwright_path",
+        "isExtraImport": true,
+        "detail": "playwright_path",
+        "documentation": {}
+    },
+    {
+        "label": "get_playwright_browsers_path",
+        "importPath": "playwright_path",
+        "description": "playwright_path",
+        "isExtraImport": true,
+        "detail": "playwright_path",
+        "documentation": {}
+    },
+    {
+        "label": "get_playwright_browsers_path",
+        "importPath": "playwright_path",
+        "description": "playwright_path",
+        "isExtraImport": true,
+        "detail": "playwright_path",
+        "documentation": {}
+    },
+    {
         "label": "subprocess",
         "kind": 6,
         "isExtraImport": true,
@@ -280,15 +329,6 @@
         "description": "settings",
         "isExtraImport": true,
         "detail": "settings",
-        "documentation": {}
-    },
-    {
-        "label": "os",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "os",
-        "description": "os",
-        "detail": "os",
         "documentation": {}
     },
     {
@@ -379,6 +419,15 @@
         "description": "page4",
         "peekOfCode": "def main(): \n    asyncio.run(run())\nif __name__ == \"__main__\":\n    main()",
         "detail": "page4",
+        "documentation": {}
+    },
+    {
+        "label": "get_playwright_browsers_path",
+        "kind": 2,
+        "importPath": "playwright_path",
+        "description": "playwright_path",
+        "peekOfCode": "def get_playwright_browsers_path():\n    # You can customize this path if needed\n    return os.path.join(os.getcwd(), \".playwright-browsers\")",
+        "detail": "playwright_path",
         "documentation": {}
     },
     {

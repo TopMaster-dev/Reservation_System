@@ -1,9 +1,11 @@
+import os
 import re
 import asyncio
 from playwright.async_api import async_playwright
 from datetime import datetime, timedelta
 from run import set_tag
 from line import line_bot
+from playwright_path import get_playwright_browsers_path
 
 async def run():
     tomorrow = datetime.now() + timedelta(days=1)
@@ -12,10 +14,14 @@ async def run():
     url = f"https://reserve.tokyodisneyresort.jp/hotel/list/?showWay=&roomsNum=1&adultNum=2&childNum=0&stayingDays=1&useDate={setDay}&cpListStr=&childAgeBedInform=&searchHotelCD=DHM&searchHotelDiv=&hotelName=&searchHotelName=&searchLayer=&searchRoomName=%E3%82%B9%E3%83%9A%E3%83%81%E3%82%A2%E3%83%BC%E3%83%AC%E3%83%BB%E3%83%AB%E3%83%BC%E3%83%A0%EF%BC%86%E3%82%B9%E3%82%A4%E3%83%BC%E3%83%88%E3%80%80%E3%83%9D%E3%83%AB%E3%83%88%E3%83%BB%E3%83%91%E3%83%A9%E3%83%87%E3%82%A3%E3%83%BC%E3%82%BE%E3%83%BB%E3%82%B5%E3%82%A4%E3%83%89%20%E3%83%86%E3%83%A9%E3%82%B9%E3%83%AB%E3%83%BC%E3%83%A0%20%E3%83%8F%E3%83%BC%E3%83%90%E3%83%BC%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%93%E3%83%A5%E3%83%BC&hotelSearchDetail=true&detailOpenFlg=0&checkPointStr=&hotelChangeFlg=false&removeSessionFlg=true&returnFlg=false&hotelShowFlg=&displayType=data-hotel&reservationStatus=1&hotelRoomCd=HODHMTGD0004N#tabCont1"
 
     user_agent = (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/124.0.0.0 Safari/537.36"
     )
+        
+    # Set PLAYWRIGHT_BROWSERS_PATH to the correct location
+    browsers_path = get_playwright_browsers_path()
+    os.environ['PLAYWRIGHT_BROWSERS_PATH'] = browsers_path
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)

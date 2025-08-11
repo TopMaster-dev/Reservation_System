@@ -2,3 +2,6 @@
 user_data
 .playwright-browsers
 .vscode
+build
+dist
+__pycache__

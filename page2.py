@@ -1,8 +1,11 @@
+import os
+import re
 import asyncio
 from playwright.async_api import async_playwright
 from datetime import datetime, timedelta
 from run import set_tag
 from line import line_bot
+from playwright_path import get_playwright_browsers_path
 
 async def run():
     next_month = (datetime.now().replace(day=1) + timedelta(days=64)).replace(day=datetime.now().day)
@@ -15,6 +18,10 @@ async def run():
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/124.0.0.0 Safari/537.36"
     )
+        
+    # Set PLAYWRIGHT_BROWSERS_PATH to the correct location
+    browsers_path = get_playwright_browsers_path()
+    os.environ['PLAYWRIGHT_BROWSERS_PATH'] = browsers_path
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
